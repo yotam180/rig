@@ -1,0 +1,20 @@
+﻿<html>
+<head>
+	<title>rig</title>
+	<script src="interpreter.js"></script>
+	<meta charset="utf-8" />
+	<script>
+		function run() {
+			document.getElementById("output").innerText = rig.exec(document.getElementById("code").value, document.getElementById("args").value.split(" "));
+		}
+	</script>
+</head>
+<body>
+<center>
+	<input type="text" id="code" style="width: 100%;" placeholder="Code comes here" /><br/><br/>
+	<input type="text" id="args" style="width: 100%;" placeholder="Inputs comes here, separated by spaces" /><br/><br/>
+	<button id="clickme" onclick="run();">Run ►</button><br/><br/>
+</center>
+<div id="output"></div>
+</body>
+</html>
