@@ -257,17 +257,46 @@
 		0xfd: "ý",
 		0xfe: "þ",
 		0xff: "ÿ",
-	}
+	};
 	
+	this.code_generators = {
+
+	};
+
+	/*
+	Parses the arguments into a stack constructor expression for compilation.
+	Parameters:
+		args - array of strings representing the arguments to the program.
+	Return value:
+		String - the code that constructs the stack according to the parameters.
+	*/
+	this.get_args_stack = function(args) {
+		stack = [];
+		for (var i = 0; i < args.length; i++) {
+			try {
+				stack.push(eval(args[i]));
+			}
+			catch (err) {
+				stack.push(args[i]);
+			}
+		}
+		return "var stack = " + JSON.stringify(stack) + ";";
+	}
+
 	/*
 	Execute a code section.
 	Parameters:
 		code - the code string to execute.
 		args - the list of arguments. They will be initially pushed to the stack.
+	Return value:
+		String - the compiled javascript code that can be run.
 	*/
 	this.exec = function(code, args) {
-		return 10;
-	}
+		// Constructing the initial stack.
+		code = this.get_args_stack(args);
+
+		return code;
+	};
 };
 
 var rig = new RIG();

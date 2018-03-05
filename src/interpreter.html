@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<script>
 		function run() {
-			document.getElementById("output").innerText = rig.exec(document.getElementById("code").value, document.getElementById("args").value.split(" "));
+			document.getElementById("code").innerText = rig.exec(document.getElementById("code").value, document.getElementById("args").value.split(" "));
 		}
 	</script>
 </head>
@@ -15,6 +15,6 @@
 	<input type="text" id="args" style="width: 100%;" placeholder="Inputs comes here, separated by spaces" /><br/><br/>
 	<button id="clickme" onclick="run();">Run ►</button><br/><br/>
 </center>
-<div id="output"></div>
+<pre id="code" style="background-color: #ccc; padding: 20px;"></pre>
 </body>
 </html>
