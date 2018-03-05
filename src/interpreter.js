@@ -261,21 +261,41 @@
 	
 	this.code_generators = {
 		/*
+		This sign represents an action that will not modify the stack. 
+		For example, ɵ+ will accumulate the stack but leave it untouched. It will store the result in AX.
+		*/
+		"ɵ": -1,
+
+		/*
 		Accumulates the stack.
 		Destroys the stack, leaving one element which is the sum of the stack.
 		For example, running `+` on the stack [1, 2, 3] will leave the stack like that: [6]
 		*/
-		"+": function() {
-			return `stack = [stack.reduce((x, y) => x + y)];`
-		},
+		"+": `stack = [stack.reduce((x, y) => x + y)];`,
 
 		/*
-		This sign represents an action that will not modify the stack. 
-		For example, ɵ+ will accumulate the stack but leave it untouched. It will store the result in AX.
+		Safely accumulates the stack.
+		For example, running `+` on the stack [1, 2, 3] put in AX the value 6.
 		*/
-		"ɵ": function() {
-			return -1;
-		}
+		"ɵ+": `AX = stack.reduce((x, y) => x + y);`,
+
+		/*
+		Clears the stack from all its elements.
+		*/
+		".": `stack = [];`,
+
+		/*
+		Duplicates the last element in the stack.
+		For example, running on stack [1, 2, 3] will leave the stack like that: [1, 2, 3, 3]
+		*/
+		",": `stack.push(stack[stack.length - 1]);`,
+		
+		/*
+		Checks if the stack contains the value of AX.
+		Destroys the stack.
+		Leaving the stack with [1] if it contained the value, or [0] otherwise.
+		*/
+		":": `stack = ~stack.indexOf(AX) ? [1] : [0];`
 	};
 
 	/*
