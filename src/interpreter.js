@@ -295,7 +295,13 @@
 		Destroys the stack.
 		Leaving the stack with [1] if it contained the value, or [0] otherwise.
 		*/
-		":": `stack = ~stack.indexOf(AX) ? [1] : [0];`
+		":": `stack = ~stack.indexOf(AX) ? [1] : [0];`,
+
+		/*
+		Checks if the stack contains the value of AX.
+		Putting the value 1 in AX if the stack contains, otherwise 0.
+		*/
+		"ɵ:": `AX = ~stack.indexOf(AX) ? 1 : 0;`
 	};
 
 	/*
