@@ -332,14 +332,14 @@
 	};
 
 
-	this.code = "";
-	this.indent_level = 1;
+	var prod_code = "";
+	var indent_level = 1;
 
 	/*
 	Appends a line of code to the output code.
 	*/
 	this.app = function(line) {
-		this.code += Array(this.indent_level).join("\t") + line + "\n";
+		prod_code += Array(indent_level).join("\t") + line + "\n";
 	};
 
 	/*
@@ -352,16 +352,68 @@
 	*/
 	this.exec = function(code, args) {
 		// Resetting our headstart
-		this.code = "";
-		this.indent_level = 1;
+		prod_code = "";
+		indent_level = 1;
 		var app = this.app;
 
 		// Writing the base code.
-		app(get_base_code());
-		app(get_args_stack(args));
+		app(this.get_base_code());
+		app(this.get_args_stack(args));
 
+		// We create a code stream we can shift() every time we need another character.
+		code = code.split("");
 
-		return this.code;
+		// Reading the stream to its end.
+		while (code.length) {
+			// The final code we generate for the next symbol
+			var to_append = -1;
+			
+			// The source code we take from the code "stream"
+			var source = "";
+
+			// The generator we wish to find in this.code_generator
+			var generator = null;
+
+			// While we don't have a result, or the code generator wishes us to continue taking characters.
+			while (to_append == -1) {
+				// Taking the next character.
+				source += code.shift();
+
+				// Finding the associative generator
+				generator = this.code_generators[source];
+
+				if (generator == undefined) {
+					// If we don't find a generator, we assign to_append to exit the loop, then do nothing with it.
+					to_append = undefined;
+				}
+				else if (generator.constructor.name == "Function") {
+					// If the generator is a function, it should return the line of code.
+					to_append = generator();
+				}
+				else if (generator.constructor.name == "String") {
+					// If the generator is a string, it is the line of code.
+					to_append = generator;
+				}
+				else {
+					// Otherwise it could be -1, requesting more characters, or something less defined, which we cannot handle.
+					to_append = generator;
+				}
+			}
+
+			// Now we want to add the code lines.
+			// But only if there's something to add.
+			if (to_append) {
+				to_append = to_append.split("\n");
+
+				// We do it this way to keep the indentation level correct.
+				for (var i = 0; i < to_append.length; i++) {
+					app(to_append[i]); 
+				}
+			}
+		}
+
+		app("stack");
+		return prod_code;
 	};
 };
 
