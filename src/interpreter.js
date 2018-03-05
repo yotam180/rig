@@ -260,7 +260,22 @@
 	};
 	
 	this.code_generators = {
+		/*
+		Accumulates the stack.
+		Destroys the stack, leaving one element which is the sum of the stack.
+		For example, running `+` on the stack [1, 2, 3] will leave the stack like that: [6]
+		*/
+		"+": function() {
+			return `stack = [stack.reduce((x, y) => x + y)];`
+		},
 
+		/*
+		This sign represents an action that will not modify the stack. 
+		For example, ɵ+ will accumulate the stack but leave it untouched. It will store the result in AX.
+		*/
+		"ɵ": function() {
+			return -1;
+		}
 	};
 
 	/*
@@ -281,7 +296,25 @@
 			}
 		}
 		return "var stack = " + JSON.stringify(stack) + ";";
-	}
+	};
+
+	/*
+	Defines the base code for the program (creates the registers, alternative stack, etc).
+	*/
+	this.get_base_code = function() {
+		return `var AX = null, BX = null, CX = null, DX = null, IX = null, JX = null, KX = null;`;
+	};
+
+
+	this.code = "";
+	this.indent_level = 1;
+
+	/*
+	Appends a line of code to the output code.
+	*/
+	this.app = function(line) {
+		this.code += Array(this.indent_level).join("\t") + line + "\n";
+	};
 
 	/*
 	Execute a code section.
@@ -292,10 +325,17 @@
 		String - the compiled javascript code that can be run.
 	*/
 	this.exec = function(code, args) {
-		// Constructing the initial stack.
-		code = this.get_args_stack(args);
+		// Resetting our headstart
+		this.code = "";
+		this.indent_level = 1;
+		var app = this.app;
 
-		return code;
+		// Writing the base code.
+		app(get_base_code());
+		app(get_args_stack(args));
+
+
+		return this.code;
 	};
 };
 
