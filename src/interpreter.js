@@ -1,22 +1,22 @@
 ﻿var RIG = function() {
 	
 	this.chars = {
-		0x0: " ",
-		0x1: "",
-		0x2: "",
-		0x3: "",
-		0x4: "",
-		0x5: "",
-		0x6: "",
-		0x7: "",
-		0x8: "",
-		0x9: "",
-		0xa: "",
-		0xb: "",
-		0xc: "",
-		0xd: "",
-		0xe: "",
-		0xf: "",
+		0x0: " ", // NOP
+		0x1: "A", // push A register
+		0x2: "a", // pop to A register
+		0x3: "B", // push B register
+		0x4: "b", // pop to B register
+		0x5: "C", // push C register
+		0x6: "c", // pop to C register
+		0x7: "D", // push D register
+		0x8: "d", // pop to D register
+		0x9: "I", // push I register
+		0xa: "J", // push J register
+		0xb: "K", // push K register
+		0xc: "t", // Top-wise
+		0xd: "T", // Top-safe
+		0xe: "s", // Stack-wise
+		0xf: "S", // Stack-safe
 		0x10: "",
 		0x11: "",
 		0x12: "",
