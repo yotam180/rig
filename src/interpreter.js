@@ -325,7 +325,7 @@
 	Return value:
 		String - the compiled javascript code that can be run.
 	*/
-	this.exec = function(code, args) {
+	this.compile = function(code, args) {
 		// Resetting our headstart
 		prod_code = "";
 		indent_level = 1;
