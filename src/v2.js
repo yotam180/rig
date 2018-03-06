@@ -15,6 +15,25 @@ function isNum(x) {
     return x != "" && x.match(/^(\d*)(\.)?(\d*)$/)
 }
 
+/*
+For formatting a string with embedded values
+Constructor values:
+    str - the string, masked with %0, %1, %2,... as placeholders for the values
+    defaults - dictionary or array, which defaults[0] is the value for %0 if the parameter
+               is falsy. defaults[1] for %1, etc...
+*/
+var StringFormatter = function(str, defaults = {}) {
+    var pattern = str;
+    var placeholders = defaults;
+
+    this.format = function(values) {
+        var s = pattern;
+        for (var i = 0; i < values.length; i++) {
+            s = s.replace(new RegExp("\\%" + i), values[i] || placeholders[i]);
+        }
+        return s;
+    }
+}
 
 /*
 An expression class to describe an expression.
@@ -29,7 +48,7 @@ var Expression = function(_note, _children, _format) {
 };
 
 var LiteralExpression = function(value) {
-    return new Expression("LITERAL", [], value);
+    return new Expression("LITERAL", [], new StringFormatter(value));
 };
 
 Expression.NO_LITERALS = 0b01;
@@ -136,6 +155,10 @@ var StreamParser = function(_stream) {
                 if (accept_literals && isNum(note)) {
                     return new LiteralExpression(note);
                 }
+                // If the note is optional, we can just give up on it.
+                else {
+
+                }
             }
 
             // Otherwise we want to take an element (even if it triggers
@@ -174,10 +197,49 @@ var StreamParser = function(_stream) {
     };
 };
 
-var lexicon = {
-    "+": new Expression("+", [Expression.ANY, Expression.OPTIONAL], "((%1)+(%2))"),
-    "*": new Expression("*", [Expression.ANY, Expression.OPTIONAL], "((%1)*(%2))")
-}
+/*
+For parsing complete language code.
+*/
+var LanguageParser = function(code, statements, expressions) {
+    var stream = new Stream(code);
+    var sp = new StreamParser(stream);
+    var stmt = statements;
+    var exps = expressions;
 
-var s = new Stream("+5*2 3")
-var sp = new StreamParser(s);
+    function build_expression_tree(opts) {
+        // Reading an expression from the stream
+        var exp = sp.next_token(opts, exps);
+
+        // Recursively executing all child expressions.
+        var children = exp.children.map(x => build_expression_tree(x));
+
+        // Formatting the expression using its formatted children
+        return exp.format.format(children);
+    };
+
+    this.expression_tree = function() {
+        var stm = sp.next_token(Expression.ANY, stmt);
+
+        var children = stm.children.map(x => build_expression_tree(x));
+
+        return stm.format.format(children);
+    }
+};
+
+var expressions = {
+    "+": new Expression("+", 
+            [Expression.ANY, Expression.OPTIONAL], 
+            new StringFormatter("((%0)+(%1))", {1: 1})),
+
+    "*": new Expression("-", 
+            [Expression.ANY, Expression.OPTIONAL], 
+            new StringFormatter("((%0)*(%1))", {1: 1})),
+};
+
+var statements = {
+    "p": new Expression("p",
+            [Expression.ANY],
+            new StringFormatter("stack.push(%0);"))
+};
+
+var l = new LanguageParser("p+5*2 3", statements, expressions);
