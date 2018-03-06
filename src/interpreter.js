@@ -32,14 +32,11 @@ var RIG = function() {
 		"S": -1,
 
 		/*
-		Add(a)
+		Add(a = 1)
 		Adds parameter A to all elements in the stack.
 		*/
 		"+": function() {
-			var a = self.take(registers);
-			if (is_err(a)) {
-				return a;
-			}
+			var a = self.try_take(registers) || 1;
 
 			return `stack = stack.map(x => x + ` + a + `);`;
 		},
