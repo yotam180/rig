@@ -258,6 +258,11 @@
 		0xfe: "þ",
 		0xff: "ÿ",
 	};
+
+	
+	var prod_code = "";
+	var indent_level = 1;
+	var LRR = "AX";
 	
 	this.code_generators = {
 		/*
@@ -332,9 +337,6 @@
 	};
 
 
-	var prod_code = "";
-	var indent_level = 1;
-
 	/*
 	Appends a line of code to the output code.
 	*/
@@ -354,6 +356,7 @@
 		// Resetting our headstart
 		prod_code = "";
 		indent_level = 1;
+		LRR = "AX";
 		var app = this.app;
 
 		// Writing the base code.
