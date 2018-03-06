@@ -223,23 +223,70 @@ var LanguageParser = function(code, statements, expressions) {
         var children = stm.children.map(x => build_expression_tree(x));
 
         return stm.format.format(children);
+    };
+};
+
+var RIGCompiler = function() {
+
+    this.indent_level = 1;
+    this.output_code = "";
+
+    this.statements = {};
+    this.expressions = {};
+
+    function generate_stack_args(args) {
+        var stack = [];
+        for (var i = 0; i < args.length; i++) {
+            if (args[i]) {
+                try {
+                    stack.push(eval(args[i]));
+                }
+                catch (err) {
+                    stack.push(args[i]);
+                }
+            }
+        }
+        return JSON.stringify(stack);
     }
+
+    function app(line) {
+        this.output_code += Array(this.indent_level).join("\t") + line + "\n";
+    }
+
+    this.compile(code, args) = function() {
+        this.output_code = 
+            `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 10, KX = 0;\n` +
+            `var stack = ` + generate_stack_args(args) + `;\n\n`;
+
+        var s = new Stream(code);
+        var sp = new StreamParser(s);
+        var lp = new LanguageParser(sp, this.statements, this.expressions);
+
+        while (!s.is_empty()) {
+            var stmt = lp.expression_tree();
+            app(stmt);
+        }
+
+        this.output_code += `stack`;
+        return this.output_code;
+    };
+
 };
 
-var expressions = {
-    "+": new Expression("+", 
-            [Expression.ANY, Expression.OPTIONAL], 
-            new StringFormatter("((%0)+(%1))", {1: 1})),
+// var expressions = {
+//     "+": new Expression("+", 
+//             [Expression.ANY, Expression.OPTIONAL], 
+//             new StringFormatter("(%0+%1)", {1: 1})),
 
-    "*": new Expression("-", 
-            [Expression.ANY, Expression.OPTIONAL], 
-            new StringFormatter("((%0)*(%1))", {1: 1})),
-};
+//     "*": new Expression("-", 
+//             [Expression.ANY, Expression.OPTIONAL], 
+//             new StringFormatter("(%0*%1)", {1: 1})),
+// };
 
-var statements = {
-    "p": new Expression("p",
-            [Expression.ANY],
-            new StringFormatter("stack.push(%0);"))
-};
+// var statements = {
+//     "p": new Expression("p",
+//             [Expression.ANY],
+//             new StringFormatter("stack.push(%0);"))
+// };
 
-var l = new LanguageParser("p+5*2 3", statements, expressions);
+// var l = new LanguageParser("p+5*2 3", statements, expressions);
