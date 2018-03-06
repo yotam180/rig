@@ -17,10 +17,10 @@
 		0xd: "T", // Top-safe
 		0xe: "s", // Stack-wise
 		0xf: "S", // Stack-safe
-		0x10: "",
-		0x11: "",
-		0x12: "",
-		0x13: "",
+		0x10: "+", // Sum/Accumulation
+		0x11: "-",
+		0x12: "*",
+		0x13: "/",
 		0x14: "",
 		0x15: "",
 		0x16: "",
@@ -268,18 +268,46 @@
 		/*
 		Pushes the value of the registers into the top of the stack.
 		*/
-		"A": `stack.push(AX);`,
-		"B": `stack.push(BX);`,
-		"C": `stack.push(CX);`,
-		"D": `stack.push(DX);`,
+		"A": function() {
+			LRR = "AX";
+			return `stack.push(AX);`;
+		},
+		"B": function() {
+			LRR = "BX";
+			return `stack.push(BX);`;
+		},
+		"C": function() {
+			LRR = "CX";
+			return `stack.push(CX);`;
+		},
+		"D": function() {
+			LRR = "DX";
+			return `stack.push(DX);`;
+		},
 
 		/*
 		Pops the top element of the stack into the registers.
 		*/
-		"a": `AX = stack.pop();`,
-		"b": `BX = stack.pop();`,
-		"c": `CX = stack.pop();`,
-		"d": `DX = stack.pop();`,
+		"a": function() {
+			LRR = "AX";
+			return `AX = stack.pop();`;
+		},
+		"b": function() {
+			LRR = "BX";
+			return `BX = stack.pop();`;
+		},
+		"c": function() {
+			LRR = "CX";
+			return `CX = stack.pop();`;
+		},
+		"d": function() {
+			LRR = "DX";
+			return `DX = stack.pop();`;
+		},
+
+		/*
+		Adds the value of 
+		*/
 	};
 
 	/*
