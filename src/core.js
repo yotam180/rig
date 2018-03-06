@@ -157,7 +157,7 @@ var StreamParser = function(_stream) {
                 }
                 // If the note is optional, we can just give up on it.
                 else {
-
+                    return null;
                 }
             }
 
@@ -195,6 +195,10 @@ var StreamParser = function(_stream) {
             return lexicon[note];
         }
     };
+
+    this.done = function() {
+        return stream.is_empty();
+    }
 };
 
 /*
@@ -210,6 +214,10 @@ var LanguageParser = function(code, statements, expressions) {
         // Reading an expression from the stream
         var exp = sp.next_token(opts, exps);
 
+        if (!exp) {
+            return null;
+        }
+
         // Recursively executing all child expressions.
         var children = exp.children.map(x => build_expression_tree(x));
 
@@ -224,6 +232,10 @@ var LanguageParser = function(code, statements, expressions) {
 
         return stm.format.format(children);
     };
+
+    this.done = function() {
+        return sp.done();
+    }
 };
 
 var RIGCompiler = function() {
@@ -249,22 +261,22 @@ var RIGCompiler = function() {
         return JSON.stringify(stack);
     }
 
-    function app(line) {
+    this.app = function(line) {
         this.output_code += Array(this.indent_level).join("\t") + line + "\n";
-    }
+    };
 
-    this.compile(code, args) = function() {
+    this.compile = function(code, args) {
+        
+        this.indent_level = 1;
         this.output_code = 
             `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 10, KX = 0;\n` +
             `var stack = ` + generate_stack_args(args) + `;\n\n`;
 
-        var s = new Stream(code);
-        var sp = new StreamParser(s);
-        var lp = new LanguageParser(sp, this.statements, this.expressions);
+        var lp = new LanguageParser(code, this.statements, this.expressions);
 
-        while (!s.is_empty()) {
+        while (!lp.done()) {
             var stmt = lp.expression_tree();
-            app(stmt);
+            this.app(stmt);
         }
 
         this.output_code += `stack`;
@@ -272,6 +284,8 @@ var RIGCompiler = function() {
     };
 
 };
+
+var rig = new RIGCompiler();
 
 // var expressions = {
 //     "+": new Expression("+", 
