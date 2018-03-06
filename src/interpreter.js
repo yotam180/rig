@@ -265,49 +265,8 @@
 	var LRR = "AX";
 	
 	this.code_generators = {
-		/*
-		Pushes the value of the registers into the top of the stack.
-		*/
-		"A": function() {
-			LRR = "AX";
-			return `stack.push(AX);`;
-		},
-		"B": function() {
-			LRR = "BX";
-			return `stack.push(BX);`;
-		},
-		"C": function() {
-			LRR = "CX";
-			return `stack.push(CX);`;
-		},
-		"D": function() {
-			LRR = "DX";
-			return `stack.push(DX);`;
-		},
+		
 
-		/*
-		Pops the top element of the stack into the registers.
-		*/
-		"a": function() {
-			LRR = "AX";
-			return `AX = stack.pop();`;
-		},
-		"b": function() {
-			LRR = "BX";
-			return `BX = stack.pop();`;
-		},
-		"c": function() {
-			LRR = "CX";
-			return `CX = stack.pop();`;
-		},
-		"d": function() {
-			LRR = "DX";
-			return `DX = stack.pop();`;
-		},
-
-		/*
-		Adds the value of 
-		*/
 	};
 
 	/*
