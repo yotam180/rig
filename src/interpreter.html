@@ -5,7 +5,8 @@
 	<meta charset="utf-8" />
 	<script>
 		function run() {
-			document.getElementById("output_code").innerText = rig.compile(document.getElementById("code").value, document.getElementById("args").value.split(" "));
+			rig.init(document.getElementById("code").value);
+			document.getElementById("output_code").innerText = rig.compile(document.getElementById("args").value.split(" "));
 			document.getElementById("output_val").innerText = eval(document.getElementById("output_code").innerText);
 		}
 	</script>
