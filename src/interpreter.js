@@ -83,7 +83,18 @@ var RIG = function() {
 			b = b();
 
 			return "((" + a + ") + (" + b + "))";
-		}
+		},
+
+		/*
+		Register values
+		*/
+		"a": expr("AX"),
+		"b": expr("BX"),
+		"c": expr("CX"),
+		"d": expr("DX"),
+		"i": expr("IX"),
+		"j": expr("JX"),
+		"k": expr("KX")
 	};
 
 	/*
