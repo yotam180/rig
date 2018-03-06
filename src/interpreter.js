@@ -1,4 +1,9 @@
-﻿var RIG = function() {
+﻿var Err = {
+	END_OF_CODE: 0x01,
+	INVALID_NOTE: 0x02
+}
+
+var RIG = function() {
 	
 	this.chars = {
 		0x0: " ", // NOP
@@ -259,14 +264,13 @@
 		0xff: ""
 	};
 
-	
+	var src_code = [];
 	var prod_code = "";
 	var indent_level = 1;
 	var LRR = "AX";
 	
 	this.code_generators = {
 		
-
 	};
 
 	/*
@@ -305,18 +309,103 @@
 	};
 
 	/*
-	Execute a code section.
-	Parameters:
-		code - the code string to execute.
-		args - the list of arguments. They will be initially pushed to the stack.
-	Return value:
-		String - the compiled javascript code that can be run.
+	Checks if a number is a valid float for rig compilers to understand.
+	Valid float examples:
+	5
+	5.5
+	5.58
+	5. (=5)
+	.5 (=0.5)
 	*/
-	this.compile = function(code, args) {
-		// Resetting our headstart
+	function isNum(x) {
+		return x.match(/^(\d*)(\.)?(\d+)?$/);
+	}
+
+	/*
+	Takes the next acceptable element, according to a given set of elements that can be taken.
+	Parameters:
+		handles - can be an array with acceptable input names, or a dictionary which's keys are the acceptable input names.
+	Return value:
+		The received element.
+	*/
+	this.take = function(handles) {
+		var el = "";
+		var handle_found = null;
+		var is_num = false;
+
+		// We take characters until a handle is found.
+		while (true) {
+			// Checking for end of input (guard block)
+			if (src_code.length == 0) {
+				return [Err.END_OF_CODE, el];
+			}
+
+			// Taking the next element of the array
+			el += src_code.shift();
+
+
+			// Looking for a handle
+			if (handles.constructor.name == "Array") {
+				handle_found = ~handles.indexOf(el) ? 1 : 0; // 1 - found in array, 0 - not found in array
+			}
+			else if (handles.constructor.name == "Object") {
+				handle_found = handles.hasOwnProperty(el) ? 3 : 2; // 3 - found in dict, 2 - not found in dict
+			}
+
+			// If we have a valid number, continue taking inputs.
+			// We add "0" to the test because we want "15." to pass isNaN (it is a beginning of a decimal)
+			if (isNum(el)) {
+				is_num = true;
+				continue;
+			}
+
+			// If we had a valid number but just got a wrong char,
+			// we unshift it back into the source code and return the number.
+			if (is_num) {
+				src_code.unshift(el[el.length - 1]);
+				return el.substr(0, el.length - 1);
+			}
+			is_num = false;
+
+			if (handle_found == 0) {
+				continue;
+			}
+			else if (handle_found == 1) {
+				return el;
+			}
+			else if (handle_found == 2) {
+				return [Err.INVALID_NOTE, el];
+			}
+			else if (handles[el] == -1) {
+				continue;
+			}
+			else {
+				return el;
+			}
+		}
+	};
+
+	/*
+	Begins a new compilation cycle with code.
+	*/
+	this.init = function(code) {
 		prod_code = "";
 		indent_level = 1;
 		LRR = "AX";
+		src_code = code.split("");
+	}
+
+	/*
+	Execute a code section.
+	Parameters:
+		args - the list of arguments. They will be initially pushed to the stack.
+	Return value:
+		String - the compiled javascript code that can be run.
+
+	NOT WORKING, UNDER DEVELOPMENT.
+	*/
+	this.compile = function(args) {
+		// Resetting our headstart
 		var app = this.app;
 
 		// Writing the base code.
@@ -324,7 +413,6 @@
 		app(this.get_args_stack(args));
 
 		// We create a code stream we can shift() every time we need another character.
-		code = code.split("");
 
 		// Reading the stream to its end.
 		while (code.length) {
