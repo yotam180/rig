@@ -20,6 +20,13 @@ var RIG = function() {
 		"j": "JX",
 		"k": "KX"
 	};
+		
+	/*
+	Decalls the element (returns the function whose return value is the parameter)
+	*/
+	var expr = function(x) {
+		return () => x;
+	};
 	
 	/*
 	Functions that generate code!
@@ -36,9 +43,9 @@ var RIG = function() {
 		Adds parameter A to all elements in the stack.
 		*/
 		"+": function() {
-			var a = self.try_take(registers) || 1;
+			var a = self.try_take(expressions) || expr(1);
 
-			return `stack = stack.map(x => x + ` + a + `);`;
+			return `stack = stack.map(x => x + ` + a() + `);`;
 		},
 
 		/*
@@ -55,6 +62,27 @@ var RIG = function() {
 		*/
 		"S+": function() {
 			return `stack.push(stack.reduce((x, y) => x + y));`;
+		}
+	};
+
+	/*
+	Non full-line expressions (code without semicolons).
+	*/
+	var expressions = {
+		/*
+		Adds two expressions
+		*/
+		"+": function() {
+			var a = self.take(expressions);
+			if (is_err(a)) {
+				return a;
+			}
+			a = a();
+
+			var b = self.try_take(expressions) || expr(1);
+			b = b();
+
+			return "((" + a + ") + (" + b + "))";
 		}
 	};
 
@@ -115,9 +143,13 @@ var RIG = function() {
 	Parameters:
 		handles - can be an array with acceptable input names, or a dictionary which's keys are the acceptable input names.
 	Return value:
-		The received element.
+		The code generator matching the received element.
 	*/
 	this.take = function(handles, literals_allowed = true) {
+
+		while (src_code[0] == " ") {
+			src_code.shift();
+		}
 
 		if (!literals_allowed) {
 			return this.take_no_literal(handles);
@@ -132,7 +164,8 @@ var RIG = function() {
 			// Checking for end of input (guard block)
 			if (src_code.length == 0) {
 				if (isNum(el)) {
-					return el;
+					// Returning a handle that will yield the number
+					return expr(el);
 				}
 
 				return [Err.END_OF_CODE, el];
@@ -161,7 +194,7 @@ var RIG = function() {
 			// we unshift it back into the source code and return the number.
 			if (is_num) {
 				src_code.unshift(el[el.length - 1]);
-				return el.substr(0, el.length - 1);
+				return expr(el.substr(0, el.length - 1));
 			}
 			is_num = false;
 
@@ -178,7 +211,7 @@ var RIG = function() {
 				continue;
 			}
 			else {
-				return el;
+				return handles[el];
 			}
 		}
 	};
@@ -218,7 +251,7 @@ var RIG = function() {
 				continue;
 			}
 			else {
-				return el;
+				return handles[el];
 			}
 		}
 	};
@@ -271,20 +304,19 @@ var RIG = function() {
 				return el;
 			}
 
+			el = el(); // Invoking the generator.
+
 			if (isNum(el)) {
-				handle = "stack.push(" + el + ");";
+				el = "stack.push(" + el + ");";
 			}
 			else {
-				handle = code_generators[el];
-				handle = handle(); // Executing the code generator.
-
-				if (is_err(handle)) {
-					return handle;
+				if (is_err(el)) {
+					return el;
 				}
 			}
 
 			// Adding the generated code line by line
-			handle = handle.split("\n");
+			handle = el.split("\n");
 			for (var i = 0; i < handle.length; i++) {
 				app(handle[i]);
 			}
