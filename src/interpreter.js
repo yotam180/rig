@@ -11,7 +11,6 @@ var RIG = function() {
 	var LRR = "AX";
 	var self = this;
 
-
 	var registers = {
 		"a": "AX",
 		"b": "BX",
@@ -25,7 +24,7 @@ var RIG = function() {
 	/*
 	Functions that generate code!
 	*/
-	this.code_generators = {
+	var code_generators = {
 		"E": -1,
 		"t": -1,
 		"T": -1,
@@ -53,7 +52,7 @@ var RIG = function() {
 	Return value:
 		String - the code that constructs the stack according to the parameters.
 	*/
-	this.get_args_stack = function(args) {
+	var get_args_stack = function(args) {
 		stack = [];
 		for (var i = 0; i < args.length; i++) {
 			try {
@@ -69,7 +68,7 @@ var RIG = function() {
 	/*
 	Defines the base code for the program (creates the registers, alternative stack, etc).
 	*/
-	this.get_base_code = function() {
+	var get_base_code = function() {
 		return `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 0, KX = 0;`;
 	};
 
@@ -77,7 +76,7 @@ var RIG = function() {
 	/*
 	Appends a line of code to the output code.
 	*/
-	this.app = function(line) {
+	var app = function(line) {
 		prod_code += Array(indent_level).join("\t") + line + "\n";
 	};
 
@@ -182,19 +181,14 @@ var RIG = function() {
 		args - the list of arguments. They will be initially pushed to the stack.
 	Return value:
 		String - the compiled javascript code that can be run.
-
-	NOT WORKING, UNDER DEVELOPMENT.
 	*/
 	this.compile = function(args) {
-		// Resetting our headstart
-		var app = this.app;
-
 		// Writing the base code.
-		app(this.get_base_code());
-		app(this.get_args_stack(args));
+		app(get_base_code());
+		app(get_args_stack(args));
 
 		while (src_code.length) {
-			var el = this.take(this.code_generators);
+			var el = this.take(code_generators);
 			var handle = null;
 
 			// Stopping compilation on error.
@@ -206,7 +200,7 @@ var RIG = function() {
 				handle = "stack.push(" + el + ");";
 			}
 			else {
-				handle = this.code_generators[el];
+				handle = code_generators[el];
 				handle = handle(); // Executing the code generator.
 
 				if (is_err(handle)) {
