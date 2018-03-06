@@ -333,7 +333,7 @@
 	Defines the base code for the program (creates the registers, alternative stack, etc).
 	*/
 	this.get_base_code = function() {
-		return `var AX = null, BX = null, CX = null, DX = null, IX = null, JX = null, KX = null;`;
+		return `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 0, KX = 0;`;
 	};
 
 
