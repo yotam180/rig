@@ -269,6 +269,9 @@ var RIG = function() {
 	var indent_level = 1;
 	var LRR = "AX";
 	
+	/*
+	Functions that generate code!
+	*/
 	this.code_generators = {
 		
 	};
@@ -341,6 +344,10 @@ var RIG = function() {
 		while (true) {
 			// Checking for end of input (guard block)
 			if (src_code.length == 0) {
+				if (isNum(el)) {
+					return el;
+				}
+
 				return [Err.END_OF_CODE, el];
 			}
 
@@ -439,6 +446,8 @@ var RIG = function() {
 				app(handle[i]);
 			}
 		}
+
+		return prod_code;
 	};
 };
 
