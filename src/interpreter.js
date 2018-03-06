@@ -42,6 +42,22 @@ var RIG = function() {
 			}
 
 			return `stack = stack.map(x => x + ` + a + `);`;
+		},
+
+		/*
+		Accumulate()
+		Accumulates the stack stack-wise
+		*/
+		"s+": function() {
+			return `stack = [stack.reduce((x, y) => x + y)];`;
+		},
+
+		/*
+		Stack-safe Accumulate()
+		Accumulates the stack stack-safe
+		*/
+		"S+": function() {
+			return `stack.push(stack.reduce((x, y) => x + y));`;
 		}
 	};
 
