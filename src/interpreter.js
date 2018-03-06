@@ -106,7 +106,7 @@ var RIG = function() {
 	.5 (=0.5)
 	*/
 	function isNum(x) {
-		return x.match(/^(\d*)(\.)?(\d+)?$/);
+		return x != "" && x.match(/^(\d*)(\.)?(\d+)?$/);
 	}
 
 	function is_err(x) {
@@ -120,7 +120,12 @@ var RIG = function() {
 	Return value:
 		The received element.
 	*/
-	this.take = function(handles) {
+	this.take = function(handles, literals_allowed = true) {
+
+		if (!literals_allowed) {
+			return this.take_no_literal(handles);
+		}
+
 		var el = "";
 		var handle_found = null;
 		var is_num = false;
@@ -179,6 +184,63 @@ var RIG = function() {
 				return el;
 			}
 		}
+	};
+
+	this.take_no_literal = function(handles) {
+		var el = "";
+		var handle_found = null;
+
+		// We take characters until a handle is found.
+		while (true) {
+			// Checking for end of input (guard block)
+			if (src_code.length == 0) {
+				return [Err.END_OF_CODE, el];
+			}
+
+			// Taking the next element of the array
+			el += src_code.shift();
+
+			// Looking for a handle
+			if (handles.constructor.name == "Array") {
+				handle_found = ~handles.indexOf(el) ? 1 : 0; // 1 - found in array, 0 - not found in array
+			}
+			else if (handles.constructor.name == "Object") {
+				handle_found = handles.hasOwnProperty(el) ? 3 : 2; // 3 - found in dict, 2 - not found in dict
+			}
+
+			if (handle_found == 0) {
+				continue;
+			}
+			else if (handle_found == 1) {
+				return el;
+			}
+			else if (handle_found == 2) {
+				return [Err.INVALID_NOTE, el];
+			}
+			else if (handles[el] == -1) {
+				continue;
+			}
+			else {
+				return el;
+			}
+		}
+	};
+
+	this.try_take = function(handles, literals_allowed = true) {
+		var el = this.take(handles, literals_allowed);
+		
+		if (is_err(el)) {
+			// Inserting the taken nodes back to the source code to read them again later.
+			var txt = el[1].split("");
+			while (txt.length) {
+				src_code.unshift(txt.pop());
+			}
+
+			return null;
+		}
+
+		// If everything is alright we return el.
+		return el;
 	};
 
 	/*
