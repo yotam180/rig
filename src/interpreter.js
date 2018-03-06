@@ -268,12 +268,41 @@ var RIG = function() {
 	var prod_code = "";
 	var indent_level = 1;
 	var LRR = "AX";
+	var self = this;
+
+
+	var registers = {
+		"a": "AX",
+		"b": "BX",
+		"c": "CX",
+		"d": "DX",
+		"i": "IX",
+		"j": "JX",
+		"k": "KX"
+	};
 	
 	/*
 	Functions that generate code!
 	*/
 	this.code_generators = {
-		
+		"E": -1,
+		"t": -1,
+		"T": -1,
+		"s": -1,
+		"S": -1,
+
+		/*
+		Add(a)
+		Adds parameter A to all elements in the stack.
+		*/
+		"+": function() {
+			var a = self.take(registers);
+			if (is_err(a)) {
+				return a;
+			}
+
+			return `stack = stack.map(x => x + ` + a + `);`;
+		}
 	};
 
 	/*
@@ -438,6 +467,10 @@ var RIG = function() {
 			else {
 				handle = this.code_generators[el];
 				handle = handle(); // Executing the code generator.
+
+				if (is_err(handle)) {
+					return handle;
+				}
 			}
 
 			// Adding the generated code line by line
@@ -447,6 +480,7 @@ var RIG = function() {
 			}
 		}
 
+		app("stack");
 		return prod_code;
 	};
 };
