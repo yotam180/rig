@@ -2,17 +2,17 @@
 	
 	this.chars = {
 		0x0: " ", // NOP
-		0x1: "A", // push A register
-		0x2: "a", // pop to A register
-		0x3: "B", // push B register
-		0x4: "b", // pop to B register
-		0x5: "C", // push C register
-		0x6: "c", // pop to C register
-		0x7: "D", // push D register
-		0x8: "d", // pop to D register
-		0x9: "I", // push I register
-		0xa: "J", // push J register
-		0xb: "K", // push K register
+		0x1: "A", // push AX register
+		0x2: "a", // pop to AX register
+		0x3: "B", // push BX register
+		0x4: "b", // pop to BX register
+		0x5: "C", // push CX register
+		0x6: "c", // pop to CX register
+		0x7: "D", // push DX register
+		0x8: "d", // pop to DX register
+		0x9: "I", // push IX register
+		0xa: "J", // push JX register
+		0xb: "K", // push KX register
 		0xc: "t", // Top-wise
 		0xd: "T", // Top-safe
 		0xe: "s", // Stack-wise
@@ -266,47 +266,20 @@
 	
 	this.code_generators = {
 		/*
-		This sign represents an action that will not modify the stack. 
-		For example, ɵ+ will accumulate the stack but leave it untouched. It will store the result in AX.
+		Pushes the value of the registers into the top of the stack.
 		*/
-		"ɵ": -1,
+		"A": `stack.push(AX);`,
+		"B": `stack.push(BX);`,
+		"C": `stack.push(CX);`,
+		"D": `stack.push(DX);`,
 
 		/*
-		Accumulates the stack.
-		Destroys the stack, leaving one element which is the sum of the stack.
-		For example, running `+` on the stack [1, 2, 3] will leave the stack like that: [6]
+		Pops the top element of the stack into the registers.
 		*/
-		"+": `stack = [stack.reduce((x, y) => x + y)];`,
-
-		/*
-		Safely accumulates the stack.
-		For example, running `+` on the stack [1, 2, 3] put in AX the value 6.
-		*/
-		"ɵ+": `AX = stack.reduce((x, y) => x + y);`,
-
-		/*
-		Clears the stack from all its elements.
-		*/
-		".": `stack = [];`,
-
-		/*
-		Duplicates the last element in the stack.
-		For example, running on stack [1, 2, 3] will leave the stack like that: [1, 2, 3, 3]
-		*/
-		",": `stack.push(stack[stack.length - 1]);`,
-		
-		/*
-		Checks if the stack contains the value of AX.
-		Destroys the stack.
-		Leaving the stack with [1] if it contained the value, or [0] otherwise.
-		*/
-		":": `stack = ~stack.indexOf(AX) ? [1] : [0];`,
-
-		/*
-		Checks if the stack contains the value of AX.
-		Putting the value 1 in AX if the stack contains, otherwise 0.
-		*/
-		"ɵ:": `AX = ~stack.indexOf(AX) ? 1 : 0;`
+		"a": `AX = stack.pop();`,
+		"b": `BX = stack.pop();`,
+		"c": `CX = stack.pop();`,
+		"d": `DX = stack.pop();`,
 	};
 
 	/*
