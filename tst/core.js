@@ -1,3 +1,5 @@
+CI = window.CI;
+
 CI.UnitTest("ShouldPass", function() {
 	return true;
 });
