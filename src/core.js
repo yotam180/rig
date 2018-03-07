@@ -286,21 +286,3 @@ var RIGCompiler = function() {
 };
 
 var rig = new RIGCompiler();
-
-// var expressions = {
-//     "+": new Expression("+", 
-//             [Expression.ANY, Expression.OPTIONAL], 
-//             new StringFormatter("(%0+%1)", {1: 1})),
-
-//     "*": new Expression("-", 
-//             [Expression.ANY, Expression.OPTIONAL], 
-//             new StringFormatter("(%0*%1)", {1: 1})),
-// };
-
-// var statements = {
-//     "p": new Expression("p",
-//             [Expression.ANY],
-//             new StringFormatter("stack.push(%0);"))
-// };
-
-// var l = new LanguageParser("p+5*2 3", statements, expressions);
