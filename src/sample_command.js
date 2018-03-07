@@ -12,6 +12,20 @@ rig.expressions["+"] = new Expression(
     new StringFormatter("(%0+%1)", {1: 1}) // Default value for %1 is 1 (increment ++)
 );
 
+//Takes the last elements of the stack without changing it
+rig.expressions["s"] = new Expression(
+    "s",
+    [],
+    new StringFormatter("stack[stack.length-1]")
+);
+//Takes the last element of the stack with 'pop'
+rig.expressions["S"] = new Expression(
+    "S",
+    [],
+    new StringFormatter("stack.pop()")
+);
+
+
 varegistersNames = {"a":"AX","b":"BX","c":"CX","d":"DX"};
 
 varegistersName.keys().prototype.forEach(function(element)
@@ -25,3 +39,5 @@ varegistersName.keys().prototype.forEach(function(element)
         }//Creates a function which sets lrr to last used varregister and returns the varegister value
     );
 });
+
+
