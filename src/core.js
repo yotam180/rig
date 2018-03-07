@@ -278,7 +278,15 @@ var RIGCompiler = function() {
     this.app = function(line) {
         this.output_code += Array(this.indent_level).join("\t") + line + "\n";
     };
-
+	
+	/*
+	Compiles RIG code into Javascript code, with the arguments hard-coded into the stack.
+	Parameters:
+		code - the RIG code as a string
+		args - array of values (preferrably strings or numbers)
+	Return value:
+		String - the ready JS code to be executed.
+	*/
     this.compile = function(code, args) {
         
         this.indent_level = 1;
