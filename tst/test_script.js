@@ -9,6 +9,9 @@
         try
         {
             var result = CI.UnitTests[n];
+
+            console.log(result);
+
             if (result == true) {
                 console.log(n + " succeeded");
                 passed.push(n);
@@ -16,7 +19,7 @@
             }
             else {
                 console.log(n + " failed by returning false");
-                failed[n] = result;
+                failed[n] = "" + result;
                 nf++;
             }
         }
