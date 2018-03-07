@@ -1,4 +1,4 @@
-CI = {
+window.CI = {
     UnitTests: {
 
     },
