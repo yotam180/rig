@@ -8,7 +8,7 @@
     for (var n in CI.UnitTests) if (CI.UnitTests.hasOwnProperty(n)) {
         try
         {
-            var result = CI.UnitTests[n];
+            var result = CI.UnitTests[n]();
 
             console.log(result);
 
