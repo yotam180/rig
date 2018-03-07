@@ -10,15 +10,18 @@
         {
             var result = CI.UnitTests[n];
             if (result == true) {
+                console.log(n + " succeeded");
                 passed.push(n);
                 np++;
             }
             else {
+                console.log(n + " failed by returning false");
                 failed[n] = result;
                 nf++;
             }
         }
         catch (e) {
+            console.log(n + " failed with an error", e);
             failed[n] = e.toString();
             nf++;
         }
