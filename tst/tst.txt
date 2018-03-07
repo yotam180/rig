@@ -1,4 +1,4 @@
-tst/test.js
+/tst/test.js
 /src/core.js
 /src/sample_command.js
 /tst/core.js
