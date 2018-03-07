@@ -243,6 +243,8 @@ var RIGCompiler = function() {
     this.indent_level = 1;
     this.output_code = "";
     
+    this.LRR = "AX";
+
     this.statements = {};
     this.expressions = {};
 
@@ -268,6 +270,7 @@ var RIGCompiler = function() {
     this.compile = function(code, args) {
         
         this.indent_level = 1;
+        this.LRR = "AX";
         this.output_code = 
             `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 10, KX = 0;\n` +
             `var stack = ` + generate_stack_args(args) + `;\n\n`;
