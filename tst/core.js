@@ -4,7 +4,7 @@ CI.UnitTest("ShouldPass", function() {
 	return true;
 });
 
-CI.UnitTest("ShouldFailSilently", function() {
+/*CI.UnitTest("ShouldFailSilently", function() {
 	return false;
 });
 
@@ -14,4 +14,4 @@ CI.UnitTest("ShouldFailWithMsg", function() {
 
 CI.UnitTest("ShouldThrowException", function() {
 	return (null).toString();
-});
+});*/
