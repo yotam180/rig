@@ -84,7 +84,7 @@ var Stream = function(_body) {
     Reads the first character without removing it from the stream.
     */
     this.peek = function() {
-        return body[0];
+        return body.length ? body[0] : null;
     };
 
     /*
@@ -140,6 +140,7 @@ var StreamParser = function(_stream) {
         // Getting rid of whitespaces
         while (stream.peek() == " ") {
             stream.read();
+            return null;
         }
 
         var note = "";
@@ -178,13 +179,24 @@ var StreamParser = function(_stream) {
             // we unread it back to the stream and return the number
             // we read as a LiteralExpression
             if (accept_literals && is_num) {
-                stream.unread(note[note.length - 1]);
+                if (note[note.length - 1] != " " || !isNum(stream.peek())) {
+                    stream.unread(note[note.length - 1]);
+                }
                 return new LiteralExpression(note.substr(0, note.length - 1));
             }
 
             // If nothing matches the lexicon, we don't have any chance of finding 
             // a correct note. So we have to throw an exception.
             if (!expression_found) {
+                if (optional) {
+                    while (note.length) {
+                        stream.unread(note[note.length - 1]);
+                        note = note.substr(0, note.length - 1);
+                    }
+                    return null;
+                }
+
+                // If the argument is required, we throw exceptions.
                 throw new NoteNotInLexiconException(note);
             }
 
