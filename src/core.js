@@ -242,7 +242,7 @@ var RIGCompiler = function() {
 
     this.indent_level = 1;
     this.output_code = "";
-
+    
     this.statements = {};
     this.expressions = {};
 
