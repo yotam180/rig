@@ -12,32 +12,32 @@ rig.expressions["+"] = new Expression(
     new StringFormatter("(%0+%1)", {1: 1}) // Default value for %1 is 1 (increment ++)
 );
 
-//Takes the last elements of the stack without changing it
+// Performs 'Peek' on the stack.
 rig.expressions["s"] = new Expression(
     "s",
     [],
     new StringFormatter("stack[stack.length-1]")
 );
-//Takes the last element of the stack with 'pop'
+
+// Pops the stack
 rig.expressions["S"] = new Expression(
     "S",
     [],
     new StringFormatter("stack.pop()")
 );
 
-
-varegistersNames = {"a":"AX","b":"BX","c":"CX","d":"DX"};
-
-varegistersName.keys().prototype.forEach(function(element)
-{
-    rig.expressions[element] = new Expression(
-        element,//Runs on the list of expressions which serves as keys of the varegisterNames dictionary
-        [],//There is no child expressions
-        (rig,children)=>{
-            rig.lrr = varegistersNames[element];
-            return varegistersNames[element];
-        }//Creates a function which sets lrr to last used varregister and returns the varegister value
-    );
-});
+// The expression will retrieve the value of a register.
+// Iterating through all the registers and assigning the get operator.
+var registers = ["AX", "BX", "CX", "DX", "IX", "JX", "KX"];
+registers.forEach(function(e) {
+	rig.expressions[e[0]] = new Expression(
+		e[0],
+		[], // There is no need for child expressions
+		function(rig, children) {
+			rig.LRR = e;
+			return e;
+		}
+	);
+})
 
 
