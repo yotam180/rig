@@ -19,7 +19,7 @@ varegistersName.keys().prototype.forEach(function(element)
     rig.expressions[element] = new Expression(
         element,//Runs on the list of expressions which serves as keys of the varegisterNames dictionary
         [],//There is no child expressions
-        new (rig,children)=>{
+        (rig,children)=>{
             rig.lrr = varegistersNames[element];
             return varegistersNames[element];
         }//Creates a function which sets lrr to last used varregister and returns the varegister value
