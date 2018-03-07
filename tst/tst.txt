@@ -1,0 +1,5 @@
+/tst/test.js
+/src/core.js
+/src/sample_command.js
+/tst/core.js
+/tst/test_script.js
