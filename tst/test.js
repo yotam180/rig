@@ -1,1 +1,9 @@
-signal("success", "http://sample-url.com/helloworld", "All checks have passed");
+CI = {
+    UnitTests: {
+
+    },
+
+    UnitTest: function(name, func) {
+        CI.UnitTests[name] = func;
+    }
+};
