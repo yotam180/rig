@@ -1,3 +1,3 @@
 /src/core.js
-/tst/test.js
 /src/sample_command.js
+/tst/test.js
