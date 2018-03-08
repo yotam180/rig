@@ -40,7 +40,14 @@ var StringFormatter = function(str, defaults = {}) {
         }
         return s;
     }
-}
+};
+
+var Documentation = function(title, description, args, example) {
+    this.title = title;
+    this.description = description;
+    this.arguments = args;
+    this.example = example;
+};
 
 /*
 An expression class to describe an expression.
