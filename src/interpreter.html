@@ -9,6 +9,24 @@
 	<script src="util.js"></script>
 	<script src="expr.js"></script>
 	
+	<style>
+		body {
+			background-color: #383838;
+			color: whitesmoke;
+			font-size: large;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		.output-area, input, button {
+			background-color: #202020;
+			padding: 10px;
+			outline: none;
+			border-radius: 8px;
+			color: whitesmoke;
+			font-size: large;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	</style>
 
 	<meta charset="utf-8" />
 	<script>
@@ -19,13 +37,15 @@
 	</script>
 </head>
 <body>
+Run rig code:
 <center>
 	<input type="text" id="code" style="width: 100%;" placeholder="Code comes here" /><br/><br/>
 	<input type="text" id="args" style="width: 100%;" placeholder="Inputs comes here, separated by spaces" /><br/><br/>
 	<button id="clickme" onclick="run();">Run ►</button><br/><br/>
 </center>
-<pre id="output_code" style="background-color: #ccc; padding: 20px;"></pre><br/><br/>
-Value:
-<pre id="output_val" style="background-color: #ccc; padding: 20px;"></pre>
+Compiled code:
+<pre id="output_code" class="output-area" style="padding: 20px;"></pre><br/><br/>
+Output value:
+<pre id="output_val" class="output-area" style="padding: 20px;"></pre>
 </body>
 </html>
