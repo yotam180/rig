@@ -92,7 +92,7 @@ _Pushes the square of the stack top element._
 *Example*
  - Running `T²` on the stack `s=[2, 3, 4]` will leave the stack `s=[2, 3, 4, 16]`.
 
-# `∥` - sort (Statement)
+## `∥` - sort (Statement)
 _Sorts the stack._
 
 *Arguments*
@@ -100,3 +100,30 @@ _Sorts the stack._
 
 *Example*
  - `∥` on stack `s=[1, 8, 5, 3]` will give `s=[1, 3, 5, 8]`.
+
+## `←` - clear (Statement)
+_Clears the stack._
+
+*Arguments*
+ - none
+
+*Example*
+ - Will always leave `s=[]`.
+
+## `→` - duplicate stack (Statement)
+_Duplicates the stack in order._
+
+*Arguments*
+ - none
+
+*Example*
+ - On stack `s=[1, 2]` will produce `s=[1, 2, 1, 2]`.
+
+## `↗` - duplicate element (Statement)
+_Duplicates the top element of the stack._
+
+*Arguments*
+ - none
+
+*Example*
+ - On stack `s=[1, 2]` will produce `s=[1, 2, 2]`.
