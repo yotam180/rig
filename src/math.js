@@ -14,6 +14,30 @@ rig.expressions["+"] = new Expression(
     )
 );
 
+rig.statements["+"] = new Expression(
+    "+",
+    [Expression.OPTIONAL], 
+    new StringFormatter("stack = stack.map(x => x + %0)", {0: 1}), 
+    [
+        new Documentation(
+            "Addition",
+            Documentation.Statement | Documentation.ElementWise,
+            "Adds its argument to every element in the stack.",
+            [
+                "Number - the number to add.",
+            ],
+            ""
+        ),
+        new Documentation(
+            "Addition",
+            Documentation.Statement | Documentation.ElementWise,
+            "Increments every element in the stack.",
+            [],
+            ""
+        ),
+    ]
+);
+
 rig.statements["T+"] = new Expression(
     "T+",
     [], // Second parameter is optional

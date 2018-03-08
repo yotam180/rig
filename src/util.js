@@ -106,7 +106,7 @@ rig.statements[";"] = new Expression(
 rig.statements["r"] = new Expression(
     "R",
     [],
-    new StringFormatter("stack.push(Array.from({length: stack.pop()}, (x,i) => i));"),
+    new StringFormatter("stack = stack.concat(Array.from({length: stack.pop()}, (x,i) => i));"),
     new Documentation(
         "Range",
         Documentation.Statement | Documentation.TopWise,
