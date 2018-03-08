@@ -129,6 +129,10 @@ var Stream = function(_body) {
     this.toString = function() {
         return body.join("");
     };
+
+    this.getstr = function() {
+        return body;
+    }
 };
 
 /*
@@ -163,10 +167,16 @@ var StreamParser = function(_stream) {
         var optional = opts & Expression.OPTIONAL;
 
         // Getting rid of whitespaces
-        while (stream.peek() == " ") {
-            stream.read();
-            return null;
+        if (optional) {
+            if (stream.peek() == " ") {
+                return null;
+            }
         }
+        else {
+            while (stream.peek() == " ") {
+                stream.read();
+            }
+        }   
 
         var note = "";
         var expression_found = null;
@@ -281,7 +291,7 @@ var LanguageParser = function(code, statements, expressions) {
 
 var RIGCompiler = function() {
 
-    this.indent_level = 1;
+    this.indents = [];
     this.output_code = "";
     
     this.LRR = "AX";
@@ -308,7 +318,7 @@ var RIGCompiler = function() {
     }
 
     this.app = function(line) {
-        this.output_code += Array(this.indent_level).join("\t") + line + "\n";
+        this.output_code += Array(this.indents.length + 1).join("\t") + line + "\n";
     };
 	
 	/*
@@ -321,7 +331,7 @@ var RIGCompiler = function() {
 	*/
     this.compile = function(code, args) {
         
-        this.indent_level = 1;
+        this.indents = [];
         this.LRR = "AX";
         this.output_code = 
             `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 10, KX = 0;\n` +

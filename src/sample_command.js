@@ -26,6 +26,12 @@ rig.expressions["p"] = new Expression(
     new StringFormatter("stack.pop()")
 );
 
+rig.expressions["n"] = new Expression(
+    "n",
+    [],
+    null
+);
+
 // The expression will retrieve the value of a register.
 // Iterating through all the registers and assigning the get operator.
 var registers = ["AX", "BX", "CX", "DX", "IX", "JX", "KX"];
@@ -33,10 +39,10 @@ registers.forEach(function(e) {
 	rig.expressions[e[0]] = new Expression(
 		e[0],
 		[], // There is no need for child expressions
-		function(rig, children) {
+		new StringFormatter(function(rig, children) {
 			rig.LRR = e;
 			return e;
-		}
+		})
 	);
 })
 
