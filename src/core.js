@@ -272,6 +272,9 @@ var RIGCompiler = function() {
                 }
             }
         }
+        if (stack.length == 1 && stack[0] == null) {
+            return "[]";
+        }
         return JSON.stringify(stack);
     }
 
