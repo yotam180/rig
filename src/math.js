@@ -1,3 +1,28 @@
+rig.expressions["-"] = new Expression(
+    "-",
+    [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
+    new StringFormatter("(%0-%1)", {1: 1})
+);
+
+rig.expressions["*"] = new Expression(
+    "*",
+    [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
+    new StringFormatter("(%0*%1)", {1: 2}) 
+);
+
+rig.expressions["/"] = new Expression(
+    "/",
+    [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
+    new StringFormatter(function(rig, children) {
+        if (!children[1]) {
+            return "(1/" + children[0] + ")";
+        }
+        else {
+            return "(" + children[0] + "/" + children[1] + ")";
+        }
+    })
+);
+
 var is_prime = function(x) {
     for(var i = 2; i < x; i++)
         if(x % i === 0) 
@@ -13,6 +38,7 @@ rig.statements["P"] = new Expression(
     [],
     new StringFormatter("stack = stack.map(x => is_prime(x));")
 );
+
 
 /*
 Top-wise prime checking.

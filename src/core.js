@@ -26,7 +26,14 @@ var StringFormatter = function(str, defaults = {}) {
     var pattern = str;
     var placeholders = defaults;
 
+    var exec = function(values) {
+        return pattern(window.rig, values);
+    }
+
     this.format = function(values) {
+        if (pattern.constructor.name == "Function") {
+            return exec(values);
+        }
         var s = pattern;
         for (var i = 0; i < values.length; i++) {
             s = s.replace(new RegExp("\\%" + i), values[i] || placeholders[i]);

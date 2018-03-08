@@ -127,3 +127,9 @@ _Duplicates the top element of the stack._
 
 *Example*
  - On stack `s=[1, 2]` will produce `s=[1, 2, 2]`.
+
+## `₀`, `₁`, `₂` - expression parameters
+_Return the first, second and third parameters of an expression argument._
+
+*Arguments*
+ - none
