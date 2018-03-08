@@ -26,14 +26,38 @@ var StringFormatter = function(str, defaults = {}) {
     var pattern = str;
     var placeholders = defaults;
 
+    var exec = function(values) {
+        return pattern(window.rig, values);
+    }
+
     this.format = function(values) {
+        if (pattern.constructor.name == "Function") {
+            return exec(values);
+        }
         var s = pattern;
         for (var i = 0; i < values.length; i++) {
             s = s.replace(new RegExp("\\%" + i), values[i] || placeholders[i]);
         }
         return s;
     }
-}
+};
+
+var Documentation = function(title, type, description, args, example) {
+    this.title = title;
+    this.type = type;
+    this.description = description;
+    this.arguments = args;
+    this.example = example;
+};
+
+Documentation.ElementWise = 0x0010
+Documentation.StackWise = 0x0020
+Documentation.StackSafe = 0x0030
+Documentation.TopWise = 0x0040
+Documentation.TopSafe = 0x0050
+
+Documentation.Statement = 0x0001
+Documentation.Expression = 0x0002
 
 /*
 An expression class to describe an expression.
@@ -41,10 +65,11 @@ Constructor parameters:
     children - an array of expression children
     format -receives  an array of expressions (the children) and returns a formatted string of the expression (including the subexpressions).
 */
-var Expression = function(_note, _children, _format) {
+var Expression = function(_note, _children, _format, _doc) {
     this.note = _note;
     this.format = _format;
     this.children = _children;
+    this.documentation = _doc;
 };
 
 var LiteralExpression = function(value) {
@@ -263,7 +288,7 @@ var RIGCompiler = function() {
     function generate_stack_args(args) {
         var stack = [];
         for (var i = 0; i < args.length; i++) {
-            if (args[i]) {
+            if (args[i] || args[i] == "0" || args[i] == 0) {
                 try {
                     stack.push(eval(args[i]));
                 }
@@ -271,6 +296,9 @@ var RIGCompiler = function() {
                     stack.push(args[i]);
                 }
             }
+        }
+        if (stack.length == 1 && stack[0] == null) {
+            return "[]";
         }
         return JSON.stringify(stack);
     }

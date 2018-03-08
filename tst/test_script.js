@@ -25,7 +25,7 @@
         }
         catch (e) {
             console.log(n + " failed with an error", e);
-            failed[n] = e.toString();
+            failed[n] = "Error " + e.constructor.name + ": " + e;
             nf++;
         }
     }

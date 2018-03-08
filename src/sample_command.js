@@ -1,27 +1,27 @@
 /* global rig */
 
+rig.statements["t"] = 0; // Top-wise
+rig.statements["T"] = 0; // Top-safe
+rig.statements["s"] = 0; // Stack-wise
+rig.statements["S"] = 0; // Stack-safe
+
 rig.statements["p"] = new Expression(
     "p",
     [Expression.ANY], // One parameter which is required and accepts literals,
     new StringFormatter("stack.push(%0);") // Template for the block
 );
 
-rig.expressions["+"] = new Expression(
-    "+",
-    [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
-    new StringFormatter("(%0+%1)", {1: 1}) // Default value for %1 is 1 (increment ++)
-);
 
 // Performs 'Peek' on the stack.
-rig.expressions["s"] = new Expression(
-    "s",
+rig.expressions["l"] = new Expression(
+    "l",
     [],
     new StringFormatter("stack[stack.length-1]")
 );
 
 // Pops the stack
-rig.expressions["S"] = new Expression(
-    "S",
+rig.expressions["p"] = new Expression(
+    "p",
     [],
     new StringFormatter("stack.pop()")
 );

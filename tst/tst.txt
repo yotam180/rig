@@ -1,5 +1,7 @@
 /tst/test.js
 /src/core.js
 /src/sample_command.js
+/src/math.js
 /tst/core.js
+/tst/math.js
 /tst/test_script.js
