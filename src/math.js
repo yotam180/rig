@@ -14,6 +14,19 @@ rig.expressions["+"] = new Expression(
     )
 );
 
+rig.statements["T+"] = new Expression(
+    "T+",
+    [], // Second parameter is optional
+    new StringFormatter("stack.push(stack[stack.length - 2] + stack[stack.length - 1]);"),
+    new Documentation(
+        "Addition",
+        Documentation.Statement | Documentation.TopSafe,
+        "Adds the two top elements of the stack and pushes the result.",
+        [],
+        ""
+    )
+);
+
 rig.expressions["-"] = new Expression(
     "-",
     [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional

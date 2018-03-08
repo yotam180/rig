@@ -281,7 +281,7 @@ var LanguageParser = function(code, statements, expressions) {
 
 var RIGCompiler = function() {
 
-    this.indent_level = 1;
+    this.indents = [];
     this.output_code = "";
     
     this.LRR = "AX";
@@ -308,7 +308,7 @@ var RIGCompiler = function() {
     }
 
     this.app = function(line) {
-        this.output_code += Array(this.indent_level).join("\t") + line + "\n";
+        this.output_code += Array(this.indents.length + 1).join("\t") + line + "\n";
     };
 	
 	/*
@@ -321,7 +321,7 @@ var RIGCompiler = function() {
 	*/
     this.compile = function(code, args) {
         
-        this.indent_level = 1;
+        this.indents = [];
         this.LRR = "AX";
         this.output_code = 
             `var AX = 0, BX = 1, CX = -1, DX = 2, IX = 0, JX = 10, KX = 0;\n` +
