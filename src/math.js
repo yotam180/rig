@@ -2,7 +2,7 @@ var is_prime = function(x) {
     for(var i = 2; i < x; i++)
         if(x % i === 0) 
             return false;
-    return x !== 1;
+    return x > 1;
 }; 
 
 /*
