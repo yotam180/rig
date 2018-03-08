@@ -263,7 +263,7 @@ var RIGCompiler = function() {
     function generate_stack_args(args) {
         var stack = [];
         for (var i = 0; i < args.length; i++) {
-            if (args[i]) {
+            if (args[i] || args[i] == "0" || args[i] == 0) {
                 try {
                     stack.push(eval(args[i]));
                 }
