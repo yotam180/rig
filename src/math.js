@@ -8,13 +8,44 @@ rig.expressions["-"] = new Expression(
         else {
             return "(" + children[0] + "-" + children[1] + ")";
         }
-    })
+    }),
+    [
+        new Documentation(
+            "Subtraction",
+            Documentation.Expression,
+            "Subtracts its two parameters and returns the result.",
+            [
+                "Minuend - the number being subtracted from",
+                "Subtrahend - the number being subtracted"
+            ],
+            "`-5 3` will return 2."
+        ),
+        new Documentation(
+            "Negation",
+            Documentation.Expression,
+            "Negates its argument.",
+            [
+                "Number - the number to negate"
+            ],
+            "`-5` will return -5. `-l` will return the negated stack top element."
+        )
+    ]
 );
 
 rig.expressions["*"] = new Expression(
     "*",
     [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
-    new StringFormatter("(%0*%1)", {1: 2}) 
+    new StringFormatter("(%0*%1)", {1: 2}),
+    new Documentation(
+        "Multiplication",
+        Documentation.Expression,
+        "Multiplies its two arguments and returns the result.",
+        [
+            "Factor a - the first number of the multiplication",
+            "Factor b - the second number of the multiplication"
+        ],
+        "*3 6 will return 18."
+    )
 );
 
 rig.expressions["/"] = new Expression(
@@ -27,7 +58,28 @@ rig.expressions["/"] = new Expression(
         else {
             return "(" + children[0] + "/" + children[1] + ")";
         }
-    })
+    }),
+    [
+        new Documentation(
+            "Multiplicative Inverse",
+            Documentation.Expression,
+            "Returns the multiplicative inverse of its argument (1/argument).",
+            [
+                "Number - the number to find the value of its inverse."
+            ],
+            "`/5` will return 0.2."
+        ),
+        new Documentation(
+            "Division",
+            Documentation.Expression,
+            "Divides its first argument by its second and returns the result.",
+            [
+                "Numerator - the numerator of the division",
+                "Denumerator - the denumerator of the division"
+            ],
+            "`/5 2` will return 2.5."
+        )
+    ]
 );
 
 var is_prime = function(x) {
@@ -43,7 +95,14 @@ Is a number prime? Element-wise.
 rig.statements["P"] = new Expression(
     "P",
     [],
-    new StringFormatter("stack = stack.map(x => is_prime(x));")
+    new StringFormatter("stack = stack.map(x => is_prime(x) ? 1 : 0);"),
+    new Documentation(
+        "Prime numbers check",
+        Documentation.Statement | Documentation.ElementWise,
+        "For each element on the stack, checks if it's prime. If so, changes it to 1. Otherwise to 0.",
+        [],
+        "`P` for the stack `s=[1, 2, 3]` will transform the stack to `s=[0, 1, 1]`."
+    )
 );
 
 /*
