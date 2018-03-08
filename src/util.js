@@ -29,7 +29,16 @@ rig.statements["→"] = new Expression(
 Duplicate the last element of the stack
 */
 rig.statements["↗"] = new Expression(
-    "↗",
+    "s",
     [],
     new StringFormatter("stack.push(stack[stack.length - 1]);")
+);
+
+/*
+Manipulate stack using map expression
+*/
+rig.statements["λ"] = new Expression(
+    "λ",
+    [Expression.ANY],
+    new StringFormatter("stack = stack.map(_i0 => %0);")
 );

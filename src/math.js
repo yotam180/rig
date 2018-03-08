@@ -42,6 +42,15 @@ rig.statements["²"] = new Expression(
 );
 
 /*
+Square the parameter
+*/
+rig.expressions["²"] = new Expression(
+    "²",
+    [Expression.ANY],
+    new StringFormatter("(%0 ** 2)")
+);
+
+/*
 Square the number. Top-wise.
 */
 rig.statements["t²"] = new Expression(
