@@ -351,6 +351,7 @@ var RIGCompiler = function() {
     var tokens = {
         parallel: "∥",        
         lambda: "λ",
+        fsigma: "ς",
         sub0: "₀",
         sub1: "₁",
         sub2: "₂",
@@ -358,6 +359,7 @@ var RIGCompiler = function() {
         dupl: "↗",
         del: "←",
         dup: "→",
+        tau: "τ",
         pi: "π"        
     };
 

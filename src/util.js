@@ -102,3 +102,29 @@ rig.statements[";"] = new Expression(
         ""
     )
 );
+
+rig.statements["r"] = new Expression(
+    "R",
+    [],
+    new StringFormatter("stack.push(Array.from({length: stack.pop()}, (x,i) => i));"),
+    new Documentation(
+        "Range",
+        Documentation.Statement | Documentation.TopWise,
+        "Pops the last element and creates a range from 0 to the element (exclusive).",
+        [],
+        "Running `R` for `s=[1, 4]` will transform the stack to `s=[1, 0, 1, 2, 3]`"
+    )
+);
+
+rig.statements["R"] = new Expression(
+    "R",
+    [],
+    new StringFormatter("stack.reverse();"),
+    new Documentation(
+        "Reverse",
+        Documentation.Statement | Documentation.StackWise,
+        "Reverses the stack elements.",
+        [],
+        ""
+    )
+)

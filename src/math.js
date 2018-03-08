@@ -274,7 +274,7 @@ rig.expressions["π"] = new Expression(
     [],
     new StringFormatter("3.1415926535"),
     new Documentation(
-        "PI",
+        "PI (constant)",
         Documentation.Expression,
         "The constant PI (π)",
         [],
@@ -282,3 +282,41 @@ rig.expressions["π"] = new Expression(
     )
 );
 
+rig.expressions["τ"] = new Expression(
+    "τ",
+    [],
+    new StringFormatter("10"),
+    new Documentation(
+        "Ten (constant)",
+        Documentation.Expression,
+        "The constant 10 (Ten)",
+        [],
+        ""
+    )
+);
+
+rig.statements["τ"] = new Expression(
+    "τ",
+    [],
+    new StringFormatter("stack.push(10);"),
+    new Documentation(
+        "Ten (constant)",
+        Documentation.Statement | Documentation.TopSafe,
+        "Pushes the number 10 (Ten) to the stack",
+        [],
+        ""
+    )
+);
+
+rig.statements["ς"] = new Expression(
+    "ς",
+    [],
+    new StringFormatter("stack.push(1);"),
+    new Documentation(
+        "One (constant)",
+        Documentation.Statement | Documentation.TopSafe,
+        "Pushes the number 1 (One) to the stack",
+        [],
+        ""
+    )
+);
