@@ -35,3 +35,27 @@ CI.UnitTest("IsPrime_Topsafe", function() {
 
     return true;
 });
+
+CI.UnitTest("Square_Statement", function() {
+    var r = eval(rig.compile("²", [1, 2, 5]));
+    if (JSON.stringify(r) != JSON.stringify([1, 4, 25]))
+        return "Test case 1 failed";
+
+    return true;
+});
+
+CI.UnitTest("Square_Topwise", function() {
+    var r = eval(rig.compile("t²", [1, 2, 5]));
+    if (JSON.stringify(r) != JSON.stringify([1, 2, 25]))
+        return "Test case 1 failed";
+
+    return true;
+});
+
+CI.UnitTest("Square_Topsafe", function() {
+    var r = eval(rig.compile("T²", [1, 2, 5]));
+    if (JSON.stringify(r) != JSON.stringify([1, 2, 5, 25]))
+        return "Test case 1 failed";
+
+    return true;
+});
