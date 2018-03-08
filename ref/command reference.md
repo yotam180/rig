@@ -2,20 +2,47 @@
 
 Here will be described all the commands.
 
-## `ɵ` - Safe Stack Action
-This is not an action by itself, but signifies that the next action that comes
-after it will not modify the stack. It does not work with every action, but every action that does support it will have a subclause describing how it functions with the `ɵ` preceeding it.
+## `p` - push (Statement)
+_pushes its argument onto the stack._
 
-## `+` Accumulate the Stack
-Accumulates (sums) all the elements in the stack.
+*Arguments*
+ - value to push
 
-**Destroys the stack** and leaves it with one element, which is the sum of all the elements that were in the stack before it was emptied.
+*Example* 
+ - Running `p5` on the stack `s=[1, 7]` will leave a stack `s=[1, 7, 5]`.
 
-> _Example_: executing `+` on the stack `[1, 2, 3]` will modify the stack to `[6]`.
+## `p` - pop (Expression)
+_pops the top element of the stack and returns it._
 
-### `ɵ+` Safe Stack Accumulation
-Accumulates the stack and stores the result in the `AX` variable.
+*Arguments*
+ - none
 
-**Does not modify the stack**
+*Example*
+ - Running `Ap5` on the stack `s=[1, 2, 3]` will leave a stack `s=[1, 2]`, `AX=3`, and `LRR=AX`.
 
-> _Example_: Executing `ɵ+` on the stack `[1, 2, 3]` will put the value `6` in `AX`.
+## `l` - peek (Expression)
+_returns the top element of the stack without removing it._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `ap5` on the stack `s=[1, 2, 3]` will leave a stack `s=[1, 2, 3]`, `AX=3`, and `LRR=AX`.
+
+## `A`, `B`, `C`, `D` - set register value (Statements)
+_Sets the register value to their argument._
+
+*Arguments*
+ - value to set
+
+*Example*
+ - Running `B6` will leave `BX=6` and `LRR=BX`.
+
+## `P` - is prime? (Statement)
+_For each element on the stack, sets it to `true` (1) if it is prime, otherwise to `false` (0)._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `P` on the stack `s=[1, 2, 6, 7, 9]` will cause `s=[false, true, false, true, false]`.

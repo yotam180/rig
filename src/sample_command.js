@@ -13,15 +13,15 @@ rig.expressions["+"] = new Expression(
 );
 
 // Performs 'Peek' on the stack.
-rig.expressions["s"] = new Expression(
-    "s",
+rig.expressions["l"] = new Expression(
+    "l",
     [],
     new StringFormatter("stack[stack.length-1]")
 );
 
 // Pops the stack
-rig.expressions["S"] = new Expression(
-    "S",
+rig.expressions["p"] = new Expression(
+    "p",
     [],
     new StringFormatter("stack.pop()")
 );
