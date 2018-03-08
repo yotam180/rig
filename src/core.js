@@ -129,6 +129,10 @@ var Stream = function(_body) {
     this.toString = function() {
         return body.join("");
     };
+
+    this.getstr = function() {
+        return body;
+    }
 };
 
 /*
@@ -163,10 +167,16 @@ var StreamParser = function(_stream) {
         var optional = opts & Expression.OPTIONAL;
 
         // Getting rid of whitespaces
-        while (stream.peek() == " ") {
-            stream.read();
-            return null;
+        if (optional) {
+            if (stream.peek() == " ") {
+                return null;
+            }
         }
+        else {
+            while (stream.peek() == " ") {
+                stream.read();
+            }
+        }   
 
         var note = "";
         var expression_found = null;
