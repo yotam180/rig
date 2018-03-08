@@ -19,7 +19,7 @@
             }
             else {
                 console.log(n + " failed by returning false");
-                failed[n] = "" + result;
+                failed[n] = result;
                 nf++;
             }
         }
