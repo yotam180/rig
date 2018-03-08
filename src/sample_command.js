@@ -1,5 +1,10 @@
 /* global rig */
 
+rig.statements["t"] = 0; // Top-wise
+rig.statements["T"] = 0; // Top-safe
+rig.statements["s"] = 0; // Stack-wise
+rig.statements["S"] = 0; // Stack-safe
+
 rig.statements["p"] = new Expression(
     "p",
     [Expression.ANY], // One parameter which is required and accepts literals,

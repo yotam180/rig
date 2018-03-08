@@ -11,3 +11,27 @@ CI.UnitTest("IsPrime_Statement", function() {
 
     return true;
 });
+
+CI.UnitTest("IsPrime_Topwise", function() {
+    var r = eval(rig.compile("tP", [1, 2, 5]));
+    if (JSON.stringify(r) != JSON.stringify([1, 2, true]))
+        return "Test case 1 failed";
+
+    var r = eval(rig.compile("tP", [1, 2, 18]));
+        if (JSON.stringify(r) != JSON.stringify([1, 2, false]))
+            return "Test case 1 failed";
+
+    return true;
+});
+
+CI.UnitTest("IsPrime_Topsafe", function() {
+    var r = eval(rig.compile("TP", [1, 2, 5]));
+    if (JSON.stringify(r) != JSON.stringify([1, 2, 5, true]))
+        return "Test case 1 failed";
+
+    var r = eval(rig.compile("TP", [1, 2, 18]));
+        if (JSON.stringify(r) != JSON.stringify([1, 2, 18, false]))
+            return "Test case 1 failed";
+
+    return true;
+});

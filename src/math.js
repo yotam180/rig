@@ -13,3 +13,21 @@ rig.statements["P"] = new Expression(
     [],
     new StringFormatter("stack = stack.map(x => is_prime(x));")
 );
+
+/*
+Top-wise prime checking.
+*/
+rig.statements["tP"] = new Expression(
+    "tP",
+    [],
+    new StringFormatter("stack[stack.length - 1] = is_prime(stack[stack.length - 1])")
+);
+
+/*
+Top-safe prime checking.
+*/
+rig.statements["TP"] = new Expression(
+    "tP",
+    [],
+    new StringFormatter("stack.push(is_prime(stack[stack.length - 1]))")
+);
