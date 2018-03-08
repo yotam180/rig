@@ -46,3 +46,21 @@ _For each element on the stack, sets it to `true` (1) if it is prime, otherwise 
 
 *Example*
  - Running `P` on the stack `s=[1, 2, 6, 7, 9]` will cause `s=[false, true, false, true, false]`.
+
+## `tP` - is prime? (Statement, Top-wise)
+_Sets the stack top element to `true` (1) if it is prime, otherwise to `false` (0)._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `P` on the stack `s=[1, 2, 6, 7, 9]` will cause `s=[1, 2, 6, 7, false]`.
+
+## `TP` - is prime? (Statement, Top-safe)
+_Adds on top of the stack top element `true` (1) if it is prime, otherwise `false` (0)._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `P` on the stack `s=[1, 2, 6, 7, 9]` will cause `s=[1, 2, 6, 7, 9, false]`.
