@@ -1,7 +1,14 @@
 rig.expressions["-"] = new Expression(
     "-",
     [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
-    new StringFormatter("(%0-%1)", {1: 1})
+    new StringFormatter(function(rig, children) {
+        if (!children[1]) {
+            return "(0-" + children[0] + ")";
+        }
+        else {
+            return "(" + children[0] + "-" + children[1] + ")";
+        }
+    })
 );
 
 rig.expressions["*"] = new Expression(
