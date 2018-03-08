@@ -98,6 +98,22 @@ rig.expressions["/"] = new Expression(
     ]
 );
 
+rig.expressions["÷"] = new Expression(
+    "÷",
+    [Expression.ANY, Expression.OPTIONAL],
+    new StringFormatter("Math.floor(%0/%1)"),
+    new Documentation(
+        "Division of integers",
+        Documentation.Expression,
+        "Divides its first argument by its second and returns the integer part of the result.",
+        [
+            "Numerator - the numerator of the division",
+            "Denumerator - the denumerator of the division"
+        ],
+        "`/5 2` will return 2."
+    )
+);
+
 var is_prime = function(x) {
     for(var i = 2; i < x; i++)
         if(x % i === 0) 

@@ -30,7 +30,7 @@ var StringFormatter = function(str, defaults = {}) {
         return pattern(window.rig, values);
     }
 
-    this.format = function(values) {
+    this.format = function(values = []) {
         if (pattern.constructor.name == "Function") {
             return exec(values);
         }
@@ -265,6 +265,10 @@ var LanguageParser = function(code, statements, expressions) {
     this.expression_tree = function() {
         var stm = sp.next_token(Expression.ANY, stmt);
 
+        if (stm.note == "LITERAL") {
+            return "stack.push(" + stm.format.format() + ");";
+        }
+
         var children = stm.children.map(x => build_expression_tree(x));
 
         return stm.format.format(children);
@@ -333,6 +337,29 @@ var RIGCompiler = function() {
         this.output_code += `stack`;
         return this.output_code;
     };
+
+    var tokens = {
+        parallel: "∥",        
+        lambda: "λ",
+        sub0: "₀",
+        sub1: "₁",
+        sub2: "₂",
+        sup2: "²",
+        dupl: "↗",
+        del: "←",
+        dup: "→",
+        pi: "π"        
+    };
+
+    /*
+    Tokenizes the code
+    */
+    this.preprocess = function(code) {
+        for (var i in tokens) if (tokens.hasOwnProperty(i)) {
+            code = code.replace(new RegExp("\\\\" + i, "g"), tokens[i]);
+        }
+        return code;
+    }
 
 };
 
