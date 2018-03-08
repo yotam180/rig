@@ -24,13 +24,14 @@
 			border-radius: 8px;
 			color: whitesmoke;
 			font-size: large;
-			font-family: Arial, Helvetica, sans-serif;
+			font-family: Consolas, 'Lucida Console';
 		}
 	</style>
 
 	<meta charset="utf-8" />
 	<script>
 		function run() {
+			document.getElementById("code").value = rig.preprocess(document.getElementById("code").value);
 			document.getElementById("output_code").innerText = rig.compile(document.getElementById("code").value, document.getElementById("args").value.split(" "));
 			document.getElementById("output_val").innerText = eval(document.getElementById("output_code").innerText);
 		}
@@ -46,6 +47,9 @@ Run rig code:
 Compiled code:
 <pre id="output_code" class="output-area" style="padding: 20px;"></pre><br/><br/>
 Output value:
-<pre id="output_val" class="output-area" style="padding: 20px;"></pre>
+<pre id="output_val" class="output-area" style="padding: 20px;"></pre><br/><br/>
+<dis id="docs">
+
+</div>
 </body>
 </html>

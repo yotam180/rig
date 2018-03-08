@@ -8,7 +8,7 @@ rig.expressions["₀"] = new Expression(
     new Documentation(
         "Lambda parameter",
         Documentation.Expression,
-        "Returns the first parameter for the current lambda."
+        "Returns the first parameter for the current lambda.",
         [],
         ""
     )
@@ -24,7 +24,7 @@ rig.expressions["₁"] = new Expression(
     new Documentation(
         "Lambda parameter",
         Documentation.Expression,
-        "Returns the second parameter for the current lambda."
+        "Returns the second parameter for the current lambda.",
         [],
         ""
     )
@@ -40,7 +40,7 @@ rig.expressions["₂"] = new Expression(
     new Documentation(
         "Lambda parameter",
         Documentation.Expression,
-        "Returns the third parameter for the current lambda."
+        "Returns the third parameter for the current lambda.",
         [],
         ""
     )
