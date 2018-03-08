@@ -31,3 +31,30 @@ rig.statements["TP"] = new Expression(
     [],
     new StringFormatter("stack.push(is_prime(stack[stack.length - 1]))")
 );
+
+/*
+Square the number. Element-wise.
+*/
+rig.statements["²"] = new Expression(
+    "²",
+    [],
+    new StringFormatter("stack = stack.map(x => x ** 2);")
+);
+
+/*
+Square the number. Top-wise.
+*/
+rig.statements["t²"] = new Expression(
+    "²",
+    [],
+    new StringFormatter("stack[stack.length - 1] = stack[stack.length - 1] ** 2;")
+);
+
+/*
+Square the number. Top-safe.
+*/
+rig.statements["T²"] = new Expression(
+    "²",
+    [],
+    new StringFormatter("stack.push(stack[stack.length - 1] ** 2);")
+);
