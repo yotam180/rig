@@ -91,3 +91,12 @@ _Pushes the square of the stack top element._
 
 *Example*
  - Running `T²` on the stack `s=[2, 3, 4]` will leave the stack `s=[2, 3, 4, 16]`.
+
+# `∥` - sort (Statement)
+_Sorts the stack._
+
+*Arguments*
+ - none
+
+*Example*
+ - `∥` on stack `s=[1, 8, 5, 3]` will give `s=[1, 3, 5, 8]`.

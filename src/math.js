@@ -58,3 +58,13 @@ rig.statements["T²"] = new Expression(
     [],
     new StringFormatter("stack.push(stack[stack.length - 1] ** 2);")
 );
+
+/*
+Pi.
+*/
+rig.expressions["π"] = new Expression(
+    "π",
+    [],
+    new StringFormatter("3.1415926535")
+);
+
