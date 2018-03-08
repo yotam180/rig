@@ -42,3 +42,19 @@ rig.statements["λ"] = new Expression(
     [Expression.ANY],
     new StringFormatter("stack = stack.map(_i0 => %0);")
 );
+
+var numerize = function(x) {
+    if (!x) {
+        return 0;
+    }
+    return Number(x) || 0;
+}
+
+/*
+Numerize all elements of the stack
+*/
+rig.statements[";"] = new Expression(
+    ";",
+    [],
+    new StringFormatter("stack = stack.map(x => numerize(x));")
+);

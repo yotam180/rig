@@ -46,6 +46,15 @@ rig.statements["P"] = new Expression(
     new StringFormatter("stack = stack.map(x => is_prime(x));")
 );
 
+/*
+Absolute value
+*/
+rig.expressions["∥"] = new Expression(
+    "∥",
+    [Expression.ANY],
+    new StringFormatter("Math.abs(%0)")
+)
+
 
 /*
 Top-wise prime checking.
