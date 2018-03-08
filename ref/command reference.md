@@ -64,3 +64,30 @@ _Adds on top of the stack top element `true` (1) if it is prime, otherwise `fals
 
 *Example*
  - Running `P` on the stack `s=[1, 2, 6, 7, 9]` will cause `s=[1, 2, 6, 7, 9, false]`.
+
+## `²` - square (Statement)
+_Squares all the elements of the stack._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `²` on the stack `s=[2, 3, 4]` will leave the stack `s=[4, 9, 16]`.
+
+## `t²` - square (Statement, Top-wise)
+_Squares the top element of the stack._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `t²` on the stack `s=[2, 3, 4]` will leave the stack `s=[2, 3, 16]`.
+
+## `T²` - square (Statement, Top-safe)
+_Pushes the square of the stack top element._
+
+*Arguments*
+ - none
+
+*Example*
+ - Running `T²` on the stack `s=[2, 3, 4]` will leave the stack `s=[2, 3, 4, 16]`.
