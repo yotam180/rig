@@ -1,3 +1,19 @@
+rig.expressions["+"] = new Expression(
+    "+",
+    [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
+    new StringFormatter("(%0+%1)", {1: 1}), // Default value for %1 is 1 (increment ++)
+    new Documentation(
+        "Addition",
+        Documentation.Expression,
+        "Adds its two arguments and returns the result.",
+        [
+            "Number a - the first number to add.",
+            "Number b - the second number to add."
+        ],
+        "`+5 3` will return 8."
+    )
+);
+
 rig.expressions["-"] = new Expression(
     "-",
     [Expression.ANY, Expression.OPTIONAL], // Second parameter is optional
